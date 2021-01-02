@@ -9,7 +9,7 @@ function ProductScreen({ match }) {
 
     useEffect(() => {
         axios.get(`/api/products/${match.params.id}`).then((res) => setProduct(res.data));
-    }, []);
+    }, [match]);
 
     return (
         <>
