@@ -8,7 +8,7 @@ import Message from "../components/Message";
 import { listProductDetails } from "../actions/productActions";
 
 function ProductScreen({ history, match }) {
-    const [quantity, setQuantity] = useState(0);
+    const [qty, setQty] = useState(1);
 
     const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ function ProductScreen({ history, match }) {
     }, [dispatch, match]);
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?qty=${quantity}`);
+        history.push(`/cart/${match.params.id}?qty=${qty}`);
     };
 
     return (
@@ -84,8 +84,8 @@ function ProductScreen({ history, match }) {
                                             <Col>
                                                 <Form.Control
                                                     as="select"
-                                                    value={quantity}
-                                                    onChange={(e) => setQuantity(e.target.value)}
+                                                    value={qty}
+                                                    onChange={(e) => setQty(e.target.value)}
                                                 >
                                                     {[...Array(product.countInStock).keys()].map(
                                                         (x) => (
