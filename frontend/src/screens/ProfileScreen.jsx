@@ -33,7 +33,7 @@ function ProfileScreen({ location, history }) {
             history.push("/login");
         } else if (!user.name) {
             dispatch(getUserDetails("profile"));
-            dispatch(listMyOrders);
+            dispatch(listMyOrders());
         } else {
             setName(user.name);
             setEmail(user.email);
