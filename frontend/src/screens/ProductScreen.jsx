@@ -25,11 +25,27 @@ function ProductScreen({ history, match }) {
     const { success: successProductReview, error: errorProductReview } = productReviewCreate;
 
     useEffect(() => {
+        if (successProductReview) {
+            alert("Review Submitted!");
+            setRating(0);
+            setComment("");
+            dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+        }
         dispatch(listProductDetails(match.params.id));
-    }, [dispatch, match]);
+    }, [dispatch, match, successProductReview]);
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`);
+    };
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        dispatch(
+            createProductReview(match.params.id, {
+                rating,
+                comment,
+            })
+        );
     };
 
     return (
@@ -141,6 +157,9 @@ function ProductScreen({ history, match }) {
                                 ))}
                                 <ListGroup.Item>
                                     <h2>Write a Customer Review</h2>
+                                    {errorProductReview && (
+                                        <Message variant="danger">{errorProductReview}</Message>
+                                    )}
                                     {userInfo ? (
                                         <Form onSubmit={submitHandler}>
                                             <Form.Group controlId="rating">
@@ -158,6 +177,18 @@ function ProductScreen({ history, match }) {
                                                     <option value="5">5 - Excellent</option>
                                                 </Form.Control>
                                             </Form.Group>
+                                            <Form.Group controlId="comment">
+                                                <Form.Label>Comment</Form.Label>
+                                                <Form.Control
+                                                    as="textarea"
+                                                    row="3"
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                ></Form.Control>
+                                            </Form.Group>
+                                            <Button type="submit" variant="primary">
+                                                Submit
+                                            </Button>
                                         </Form>
                                     ) : (
                                         <Message>
